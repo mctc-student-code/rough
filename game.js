@@ -105,7 +105,11 @@ submitButton.addEventListener("click", function() {
 playAgainButton.addEventListener("click", function() {
     userAnswerElement.value = ""
     randomCountrySelector()         // callback function
-    userAnswerElement.focus()
+   // userAnswerElement.focus()  // handle this in the keyup event listener 
+    // when the enter key is pressed, when the focus is on playAgainButton
+    // the click handler runs first and the focus is moved to userAnswerElement.
+    // then the keyup event handler runs and now the focus is on user answer element
+    // so the if statement is true and the submit button is clicked
 })
 
 // TODO add event listener to click the check answer button first and
@@ -117,11 +121,18 @@ window.addEventListener("keyup", function(event)
         // store the active elements in an array
         let inputElements = [userAnswerElement, submitButton]
 
+        // as before
         if(inputElements.includes(document.activeElement))
         {
             // click the check answer button if user presses the enter key
             submitButton.click()
             playAgainButton.focus()
+        }
+        
+        
+        // but if the playAgain was focused when the enter key was pressed, move the focus to user answer
+        else if (document.activeElement === playAgainButton) {
+            userAnswerElement.focus()
         }
     }
 })
